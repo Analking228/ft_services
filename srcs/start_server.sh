@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-nginx
+ssh-keygen -A
 
-bash
+/usr/bin/supervisord -c /etc/supervisord.conf
