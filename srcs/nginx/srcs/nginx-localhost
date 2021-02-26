@@ -6,10 +6,11 @@ server {
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
-	server_name 192.168.99.101;
+	server_name localhost;
 	ssl_certificate		/etc/ssl/certs/secure.crt;
 	ssl_certificate_key	/etc/ssl/private/secure.key;
-
+	root /var/www/;
+	index index.html;
 	location / {
 		try_files $uri $uri/ =404;
 		#try_files $uri $uri/ /index.php$is_args$args;
