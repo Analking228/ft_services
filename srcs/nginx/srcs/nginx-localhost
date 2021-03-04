@@ -1,14 +1,20 @@
 server {
 	listen 80;
+	listen [::]:80 default_server;
+	server_name localhost;
 	return 301 https://$host$request_uri;
 }
 
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
+
 	server_name localhost;
+
+	ssl on;
 	ssl_certificate		/etc/ssl/certs/secure.crt;
 	ssl_certificate_key	/etc/ssl/private/secure.key;
+	
 	root /var/www/;
 	index index.html;
 	location / {
