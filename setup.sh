@@ -1,8 +1,8 @@
 #!bin/sh
 
 #minikube start --vm-driver=virtualbox
-#eval $(minikube docker-env)
-#minikube addons enable metallb
+eval $(minikube docker-env)
+minikube addons enable metallb
 
 # proces
 kubectl apply -f ./srcs/configmap.yaml
@@ -28,4 +28,4 @@ kubectl apply -f ./srcs/ftps/ftps.yaml
 #kubectl apply -f ./srcs/grafana/grafana.yaml
 
 
-#minikube dashboard
+minikube dashboard
