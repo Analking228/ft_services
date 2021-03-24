@@ -2,10 +2,11 @@ FROM	alpine:3.12
 
 #running base installations
 RUN		apk update && apk upgrade
-RUN		apk add nginx sudo openssl openssh supervisor
+RUN		apk add nginx acme-client libressl sudo openssl openssh supervisor
 
 #coping srcs files and index page
 COPY	./srcs/nginx-localhost /etc/nginx/conf.d/default.conf
+COPY	./srcs/ssl-params.inc /etc/nginx/conf.d/ssl-params.inc
 COPY	./srcs/supervisor.conf /etc/supervisord.conf
 COPY 	./srcs/index.html /var/www/index.html
 

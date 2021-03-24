@@ -1,0 +1,4 @@
+resources:
+  - volume.yaml
+  - metallb.yaml
+  - ./nginx/nginx.yaml
