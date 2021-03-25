@@ -2,18 +2,17 @@ FROM	alpine:3.12
 
 #running base installations
 RUN		apk update && apk upgrade
-RUN		apk add nginx acme-client libressl sudo openssl openssh supervisor
+RUN		apk add nginx sudo openssl openssh supervisor
 
 #coping srcs files and index page
 COPY	./srcs/nginx-localhost /etc/nginx/conf.d/default.conf
-COPY	./srcs/ssl-params.inc /etc/nginx/conf.d/ssl-params.inc
 COPY	./srcs/supervisor.conf /etc/supervisord.conf
 COPY 	./srcs/index.html /var/www/index.html
 
 #making private SSL protocols
 RUN		openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 		-keyout /etc/ssl/private/secure.key -out /etc/ssl/certs/secure.crt \
-		-subj "/C=RU/ST=MosReg/L=Mitishchi/O=MyHata/OU=cjani/CN=ft_sever/"
+		-subj "/C=RU/ST=MosReg/L=Mitishchi/O=MyHata/OU=cjani/CN=ft_services/"
 
 #creating user for SSH
 RUN		mkdir -p /etc/sudoers.d

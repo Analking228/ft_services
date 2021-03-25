@@ -2,3 +2,4 @@ resources:
   - volume.yaml
   - metallb.yaml
   - ./nginx/nginx.yaml
+  - ./mysql/mysql.yaml
