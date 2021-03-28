@@ -3,3 +3,4 @@ resources:
   - metallb.yaml
   - ./nginx/nginx.yaml
   - ./mysql/mysql.yaml
+  - ./wordpress/wordpress.yaml
