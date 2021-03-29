@@ -23,12 +23,14 @@ RUN		adduser -D cjani \
 		&& echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel \
 		&& /usr/bin/ssh-keygen -A
 
-#add user fot nginx
+#add user for nginx
 RUN		adduser -D -g 'www' www
 RUN		mkdir /www
 RUN		chown -R www:www /var/lib/nginx
 RUN		chown -R www:www /www
 
+#creating nginx working directories
 RUN		mkdir -p /run/nginx
+
 EXPOSE	80 443 22
 CMD		["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

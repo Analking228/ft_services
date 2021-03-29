@@ -4,3 +4,4 @@ resources:
   - ./nginx/nginx.yaml
   - ./mysql/mysql.yaml
   - ./wordpress/wordpress.yaml
+  - ./phpmyadmin/phpmyadmin.yaml
