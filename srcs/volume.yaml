@@ -1,14 +1,29 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-volume
+  name: mysql-pv
   labels:
     type: local
 spec:
-  storageClassName: mysql-volume
+  storageClassName: mysql-pv
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/mysql"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influx-pv
+  labels:
+    type: local
+spec:
+  storageClassName: influx-pv
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/influxdb"

@@ -1,25 +1,23 @@
 FROM	alpine:3.12
 
 #running base installations
-RUN		apk update && apk upgrade
-RUN		apk add vim nginx php7-common php7-iconv php7-json php7-gd php7-curl php7-xml \
-		php7-mysqli php7-imap php7-cgi fcgi php7-pdo php7-pdo_mysql php7-soap php7-xmlrpc \
-		php7-posix php7-mcrypt php7-gettext php7-ldap php7-ctype php7-dom bash nginx openrc \
-		php-fpm openssl supervisor php7-session
+RUN		apk add openrc openssl supervisor nginx php7 php7-fpm php7-iconv \
+		php7-json php7-mbstring php7-mysqli php7-phar php7-session php7-xml
+RUN		rc-update add php-fpm7 default
 
 #dowloading and setuping myadmin packages
-RUN		wget http://files.directadmin.com/services/all/phpMyAdmin/phpMyAdmin-5.0.2-all-languages.tar.gz
-RUN		tar zxvf phpMyAdmin-5.0.2-all-languages.tar.gz
-RUN		rm phpMyAdmin-5.0.2-all-languages.tar.gz
-RUN		mv phpMyAdmin-5.0.2-all-languages /var/www/phpmyadmin
-RUN		chmod -R 777 /var/www/phpmyadmin
+RUN		wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.xz
+RUN		mkdir -p /var/www/phpmyadmin /var/www/phpmyadmin/tmp
+RUN		tar -xvf phpMyAdmin-latest-english.tar.xz --strip-components 1 -C /var/www/phpmyadmin
+RUN		rm -f phpMyAdmin-latest-english.tar.xz
+RUN		chmod 777 /var/www/phpmyadmin/tmp
 
 #coping srcs files
 COPY	/srcs/supervisord.conf /etc/supervisord.conf
 COPY	/srcs/config.inc.php /var/www/phpmyadmin/
-COPY	/srcs/php-localhost /etc/nginx/conf.d/
+COPY	/srcs/default.conf /etc/nginx/conf.d/default.conf
 
-#creating nginx working directories
+#creating working dirs
 RUN		mkdir /run/nginx
 RUN		mkdir /var/run/php
 

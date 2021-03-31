@@ -9,6 +9,7 @@ spec:
   ports:
   - protocol: TCP
     port: 3306
+    name: mysql-port
     targetPort: 3306
 
 ---
@@ -16,9 +17,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-claim
+  name: mysql-pvc
 spec:
-  storageClassName: mysql-volume
+  storageClassName: mysql-pv
   accessModes:
     - ReadWriteOnce
   resources:
@@ -30,29 +31,29 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
+      volumes:
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: mysql-pvc
       containers:
       - name: mysql
         image: mysql_image
         imagePullPolicy: Never
         ports:
         - containerPort: 3306
-          name: mysql
         volumeMounts:
-        - name: mysql-volume
+        - name: mysql-pv
           mountPath: /var/lib/
-      volumes:
-      - name: mysql-volume
-        persistentVolumeClaim:
-          claimName: mysql-claim
-
-          
