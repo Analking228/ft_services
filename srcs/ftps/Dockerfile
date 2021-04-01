@@ -1,4 +1,4 @@
-FROM		alpine:3.12
+FROM		alpine:3.7
 
 #running base instalations
 RUN			apk update && apk add vsftpd openssl openrc
@@ -7,18 +7,22 @@ RUN			apk update && apk add vsftpd openssl openrc
 RUN			mkdir -p /var/log/ftp && touch /var/log/ftp/xferlog
 
 #private certs
-RUN			openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-			-keyout /etc/vsftpd/secure.pem -out /etc/vsftpd/secure.pem \
+RUN			openssl req -x509 -nodes -days 365 -newkey rsa:1024 \
+			-keyout /etc/vsftpd/secure.key -out /etc/vsftpd/secure.crt \
 			-subj "/C=RU/ST=MosReg/L=Mitishchi/O=MyHata/OU=cjani/CN=ft_services/"
 
 #/root dir user
 RUN			echo 'root:root' | chpasswd
+RUN			chown -R root:root /root
+RUN			chmod -R 777 root
 
 #setuping conf
 COPY		./srcs/vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY		./srcs/start.sh /start.sh
 
 #endians
 RUN			rc default
-EXPOSE		21
+VOLUME		/root
+EXPOSE		21 10100
 
-ENTRYPOINT	vsftpd /etc/vsftpd/vsftpd.conf
+CMD sh /start.sh
